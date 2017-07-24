@@ -87,9 +87,9 @@ struct SegmentTree
 		{
 			return t[x].val;
 		}
-		Sum(a, b, x * 2, l, (l + r) / 2);
-		Sum(a, b, x * 2 + 1, (l + r) / 2 + 1, r);
-		return t[x].val = t[x * 2].val + t[x * 2 + 1].val;
+		int64 s1 = Sum(a, b, x * 2, l, (l + r) / 2);
+		int64 s2 = Sum(a, b, x * 2 + 1, (l + r) / 2 + 1, r);
+		return s1 + s2;
 	}
 };
 
