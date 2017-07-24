@@ -93,3 +93,124 @@ struct SegmentTree
 	}
 };
 
+//SqrtDec
+struct SqrtDec
+{
+	const static int size = 100;
+	pii64 getBlock(int x)
+	{
+		return mp(x / size, x%size);
+	}
+	struct Block
+	{
+		deque<int64> w;
+		int64 sum = 0;
+
+		Block() { }
+
+		void Insert(int n, int64 val)
+		{
+			add_sum(val);
+			w.insert(w.begin() + n, val);
+		}
+		void Erase(int n)
+		{
+			dec_sum(w[n]);
+			w.erase(w.begin() + n);
+		}
+
+		void push_back(int64 val)
+		{
+			add_sum(val);
+			w.push_back(val);
+		}
+		void push_front(int64 val)
+		{
+			add_sum(val);
+			w.push_front(val);
+		}
+		int64 pop_back()
+		{
+			int64 t = w.back();
+			dec_sum(t);
+			w.pop_back();
+			return t;
+		}
+		int64 pop_front()
+		{
+			int64 t = w.front();
+			dec_sum(t);
+			w.pop_front();
+			return t;
+		}
+
+		int64 Sum()
+		{
+			return sum;
+		}
+
+		int64 Sum(int l, int r)
+		{
+			int64 res = 0;
+			for (int i = l;i <= r;i++)
+			{
+				res += w[i];
+			}
+			return res;
+		}
+
+		void dec_sum(int64 val)
+		{
+			sum -= val;
+		}
+
+		void add_sum(int64 val)
+		{
+			sum += val;
+		}
+	};
+	vector<Block> t;
+	SqrtDec() {}
+	SqrtDec(int n)
+	{
+		init(n);
+	}
+	void init(int n)
+	{
+		t.assign(n / size + 1, Block());
+	}
+
+	void Insert(int n, int64 val)
+	{
+		auto blk = getBlock(n);
+		t[blk.first].Insert(blk.second, val);
+		for (int i = blk.first;i + 1 < t.size() && t[i].w.size() > size;i++)
+		{
+			t[i + 1].push_front(t[i].pop_back());
+		}
+	}
+	void Erase(int n)
+	{
+		auto blk = getBlock(n);
+		t[blk.first].Erase(blk.second);
+		for (int i = blk.first;i + 1 < t.size() && t[i].w.size() < size;i++)
+		{
+			t[i].push_back(t[i + 1].pop_front());
+		}
+	}
+	int64 Sum(int l, int r)
+	{
+		auto bl1 = getBlock(l);
+		auto bl2 = getBlock(r);
+		if (bl1.first == bl2.first) return t[bl1.first].Sum(bl1.second, bl2.second);
+
+		int64 res = t[bl1.first].Sum(bl1.second, size - 1) + t[bl2.first].Sum(0, bl2.second);
+
+		for (int i = bl1.first + 1;i<bl2.second;i++)
+		{
+			res += t[i].Sum();
+		}
+		return res;
+	}
+};
+
