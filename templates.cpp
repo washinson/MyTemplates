@@ -33,3 +33,62 @@ struct Union
 		if (t[a].r == t[b].r) t[a].r++;
 	}
 };
+
+//SegmentTree
+struct SegmentTree
+{
+	struct Node
+	{
+		int64 val = 0;
+		int64 sum = 0;
+	};
+	
+	vector<Node> t;
+	static int n;
+
+	void init(int nn)
+	{
+		t.assign(4 * n, Node());
+		n = nn;
+	}
+
+	void Push(int x, int l, int r)
+	{
+		if (t[x].sum == 0) return;
+		t[x].val += t[x].sum;
+		if (l <= r)
+		{
+			t[x * 2].sum = t[x].sum;
+			t[x * 2 + 1].sum = t[x].sum;
+		}
+		t[x].sum = 0;
+	}
+
+	void Add(int a, int b, int v, int x = 1, int l = 0, int r = n - 1)
+	{
+		Push(x, l, r);
+		if (a > r || b < l) return;
+		if (a >= l&&b <= r)
+		{
+			t[x].sum += v;
+			Push(x, l, r);
+			return;
+		}
+		Add(a, b, v, x * 2, l, (l + r) / 2);
+		Add(a, b, v, x * 2 + 1, (l + r) / 2 + 1, r);
+		t[x].val = t[x * 2].val + t[x * 2 + 1].val;
+	}
+
+	int64 Sum(int a, int b, int x = 1, int l = 0, int r = n - 1)
+	{
+		Push(x, l, r);
+		if (a > r || b < l) return 0;
+		if (a >= l&&b <= r)
+		{
+			return t[x].val;
+		}
+		Sum(a, b, x * 2, l, (l + r) / 2);
+		Sum(a, b, x * 2 + 1, (l + r) / 2 + 1, r);
+		return t[x].val = t[x * 2].val + t[x * 2 + 1].val;
+	}
+};
