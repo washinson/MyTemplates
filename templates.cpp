@@ -55,7 +55,7 @@ struct SegmentTree
 	void Push(int x, int l, int r)
 	{
 		if (t[x].sum == 0) return;
-		t[x].val += t[x].sum;
+		t[x].val += t[x].sum * (r - l + 1);
 		if (l <= r)
 		{
 			t[x * 2].sum = t[x].sum;
@@ -64,7 +64,7 @@ struct SegmentTree
 		t[x].sum = 0;
 	}
 
-	void Add(int a, int b, int v, int x = 1, int l = 0, int r = n - 1)
+	void Add(int a, int b, int64 v, int x = 1, int l = 0, int r = n - 1)
 	{
 		Push(x, l, r);
 		if (a > r || b < l) return;
@@ -92,3 +92,4 @@ struct SegmentTree
 		return t[x].val = t[x * 2].val + t[x * 2 + 1].val;
 	}
 };
+
