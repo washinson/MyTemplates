@@ -114,7 +114,7 @@ struct SqrtDec
 
 		void Insert_Index(int to, int64 val)
 		{
-			w.insert(w.begin() + to, val);
+			push_operation(val); w.insert(w.begin() + to, val);
 		}
 
 		void Erase_Val(int64 val)
@@ -124,7 +124,7 @@ struct SqrtDec
 
 		void Erase_Index(int to)
 		{
-			w.erase(w.begin() + to);
+			pop_operation(w[to]); w.erase(w.begin() + to);
 		}
 
 		void push_back(int64 val)
