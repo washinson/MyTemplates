@@ -96,121 +96,181 @@ struct SegmentTree
 //SqrtDec
 struct SqrtDec
 {
-	const static int size = 100;
-	pii64 getBlock(int x)
-	{
-		return mp(x / size, x%size);
-	}
+	const int size = 1000;
+
 	struct Block
 	{
-		deque<int64> w;
-		int64 sum = 0;
+		deque<int64> w; int64 sum = 0;
 
-		Block() { }
-
-		void Insert(int n, int64 val)
+		int64 find_element(int64 val)
 		{
-			add_sum(val);
-			w.insert(w.begin() + n, val);
+			return lower_bound(ALL(w), val) - w.begin();
 		}
-		void Erase(int n)
+
+		void Insert_Val(int64 val)
 		{
-			dec_sum(w[n]);
-			w.erase(w.begin() + n);
+			auto it = lower_bound(ALL(w), val); if (it != w.end() && *it == val) return; w.insert(it, val); push_operation(val);
+		}
+
+		void Insert_Index(int to, int64 val)
+		{
+			w.insert(w.begin() + to, val);
+		}
+
+		void Erase_Val(int64 val)
+		{
+			auto it = lower_bound(ALL(w), val); if (it != w.end() && *it == val) return; w.erase(it); pop_operation(val);
+		}
+
+		void Erase_Index(int to)
+		{
+			w.erase(w.begin() + to);
 		}
 
 		void push_back(int64 val)
 		{
-			add_sum(val);
-			w.push_back(val);
-		}
-		void push_front(int64 val)
-		{
-			add_sum(val);
-			w.push_front(val);
-		}
-		int64 pop_back()
-		{
-			int64 t = w.back();
-			dec_sum(t);
-			w.pop_back();
-			return t;
-		}
-		int64 pop_front()
-		{
-			int64 t = w.front();
-			dec_sum(t);
-			w.pop_front();
-			return t;
+			w.push_back(val); push_operation(val);
 		}
 
-		int64 Sum()
+		void push_front(int64 val)
 		{
+			w.push_front(val); push_operation(val);
+		}
+
+		int64 pop_back()
+		{
+			int64 t = w.back(); pop_operation(t); w.pop_back(); return t;
+		}
+
+		int64 pop_front()
+		{
+			int64 t = w.front(); pop_operation(t); w.pop_front(); return t;
+		}
+
+		int64 Sum_Index(int64 l, int64 r)
+		{
+			int64 sum = 0;
+			for (;l < w.size() && l <= r;l++)
+			{
+				sum += w[l];
+			}
 			return sum;
 		}
 
-		int64 Sum(int l, int r)
+		int64 Sum_Val(int64 l,int64 r)
 		{
-			int64 res = 0;
-			for (int i = l;i <= r;i++)
+			int64 sum = 0;
+			for (int i = 0 ;i < w.size();i++)
 			{
-				res += w[i];
+				if (w[i] >= l&&w[i] <= r)sum += w[i];
 			}
-			return res;
+			return sum;
 		}
 
-		void dec_sum(int64 val)
-		{
-			sum -= val;
-		}
-
-		void add_sum(int64 val)
+		void push_operation(int64 val)
 		{
 			sum += val;
 		}
+
+		void pop_operation(int64 val)
+		{
+			sum -= val;
+		}
 	};
+
 	vector<Block> t;
-	SqrtDec() {}
-	SqrtDec(int n)
-	{
-		init(n);
-	}
+
 	void init(int n)
 	{
-		t.assign(n / size + 1, Block());
+		t.assign(n / size + 5, Block());
 	}
 
-	void Insert(int n, int64 val)
+	pii64 getBlock_Val(int64 val)
 	{
-		auto blk = getBlock(n);
-		t[blk.first].Insert(blk.second, val);
-		for (int i = blk.first;i + 1 < t.size() && t[i].w.size() > size;i++)
+		for (int i = 0;;i++)
+		{
+			int ind = t[i].find_element(val);
+			if (ind >= size) continue;
+			return mp(i, ind);
+		}
+	}
+
+	pii64 getBlock_Index(int64 val)
+	{
+		return mp(val / size, val%size);
+	}
+
+	void Insert_Val(int64 val)
+	{
+		pii64 bl = getBlock_Val(val);
+		t[bl.first].Insert_Val(val);
+		for (int i = bl.first;t[i].w.size() > size;i++)
+		{
+			t[i+1].push_front(t[i].pop_back());
+		}
+	}
+
+	void Insert_Index(int64 val)
+	{
+		pii64 bl = getBlock_Index(val);
+		t[bl.first].Insert_Index(bl.second, val);
+		for (int i = bl.first;t[i].w.size() > size;i++)
 		{
 			t[i + 1].push_front(t[i].pop_back());
 		}
 	}
-	void Erase(int n)
+
+	void Erase_Val(int64 val)
 	{
-		auto blk = getBlock(n);
-		t[blk.first].Erase(blk.second);
-		for (int i = blk.first;i + 1 < t.size() && t[i].w.size() < size;i++)
+		pii64 bl = getBlock_Val(val);
+		t[bl.first].Erase_Val(val);
+		for (int i = bl.first;!t[i + 1].w.empty() && t[i].w.size() < size;i++)
 		{
 			t[i].push_back(t[i + 1].pop_front());
 		}
 	}
-	int64 Sum(int l, int r)
+
+	void Erase_Index(int64 val)
 	{
-		auto bl1 = getBlock(l);
-		auto bl2 = getBlock(r);
-		if (bl1.first == bl2.first) return t[bl1.first].Sum(bl1.second, bl2.second);
-
-		int64 res = t[bl1.first].Sum(bl1.second, size - 1) + t[bl2.first].Sum(0, bl2.second);
-
-		for (int i = bl1.first + 1;i<bl2.second;i++)
+		pii64 bl = getBlock_Index(val);
+		t[bl.first].Erase_Index(bl.second);
+		for (int i = bl.first;!t[i + 1].w.empty() && t[i].w.size() < size;i++)
 		{
-			res += t[i].Sum();
+			t[i].push_back(t[i + 1].pop_front());
+		}
+	}
+
+	int64 Sum_Index(int64 l, int64 r)
+	{
+		auto itl = getBlock_Index(l);
+		auto itr = getBlock_Index(r);
+
+		if (itl.first == itr.first) return t[itl.first].Sum_Index(l, r);
+
+		int64 res = t[itl.first].Sum_Index(itl.second, size - 1) + t[itr.first].Sum_Index(0, itr.second);
+
+		for (int i = itl.first + 1;i < itr.first;i++)
+		{
+			res += t[i].sum;
+		}
+		return res;
+	}
+
+	int64 Sum_Val(int64 l,int64 r)
+	{
+		auto itl = getBlock_Val(l);
+		auto itr = getBlock_Val(r);
+
+		if (itl.first == itr.first) return t[itl.first].Sum_Val(l,r);
+
+		int64 res = t[itl.first].Sum_Val(l, r) + t[itr.first].Sum_Val(l, r);
+
+		for (int i = itl.first+1;i < itr.first;i++)
+		{
+			res += t[i].sum;
 		}
 		return res;
 	}
 };
+
 
