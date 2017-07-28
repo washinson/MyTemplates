@@ -10,7 +10,7 @@
 #include <functional>
 #include <deque>
 
-using namepsace std;
+using namespace std;
 
 #define forn(i,n) for(int i = 0; i < n; i++)
 #define forr(i,n) for(int i = n-1; i >= 0; i++)
@@ -26,6 +26,7 @@ typedef pair<int64, int64> pii64;
 typedef vector<int> vint;
 typedef vector<int64> vint64;
 template <typename T> istream& operator >> (istream& in, vector<T>& t) { for (int i = 0;i < t.size();i++) in >> t[i]; return in; }
+template <typename T> ostream& operator >> (ostream& out, vector<T>& t) { for (int i = 0;i < t.size();i++) out << t[i] << " "; return out; }
 
 
 int main()
