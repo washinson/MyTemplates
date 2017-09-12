@@ -10,6 +10,7 @@
 #include <functional>
 #include <deque>
 #include <cmath>
+#include <sstream>
 
 using namespace std;
 
