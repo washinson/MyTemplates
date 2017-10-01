@@ -48,8 +48,8 @@ struct SegmentTree
 
 	void init(int nn)
 	{
-		t.assign(4 * n, Node());
 		n = nn;
+		t.assign(4 * n, Node());
 	}
 
 	void Push(int x, int l, int r)
@@ -68,7 +68,7 @@ struct SegmentTree
 	{
 		Push(x, l, r);
 		if (a > r || b < l) return;
-		if (a >= l&&b <= r)
+		if (l >= a && r <= b)
 		{
 			t[x].sum += v;
 			Push(x, l, r);
@@ -83,7 +83,7 @@ struct SegmentTree
 	{
 		Push(x, l, r);
 		if (a > r || b < l) return 0;
-		if (a >= l&&b <= r)
+		if (l >= a && r <= b)
 		{
 			return t[x].val;
 		}
