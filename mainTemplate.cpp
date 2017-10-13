@@ -17,7 +17,7 @@ using namespace std;
 #define forn(i,n) for(int i = 0; i < n; i++)
 #define forr(i,n) for(int i = n-1; i >= 0; i++)
 #define ALL(x) x.begin(),x.end()
-#define mp(x,y) make_pair(x,y);
+#define mp(x,y) make_pair(x,y)
 #define lson x*2, l, m
 #define rson x*2+1, m+1, r
 
