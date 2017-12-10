@@ -18,8 +18,8 @@ using namespace std;
 #define forr(i,n) for(int i = n-1; i >= 0; i++)
 #define ALL(x) x.begin(),x.end()
 #define mp(x,y) make_pair(x,y)
-#define lson x*2, l, m
-#define rson x*2+1, m+1, r
+#define sf(x,y) scanf("%" x,&y)
+#define pf(x,y) printf("%" x,y)
 
 typedef long long int64;
 typedef unsigned long long uint64;
