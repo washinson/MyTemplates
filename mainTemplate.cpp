@@ -1,3 +1,4 @@
+#pragma comment(linker, "/STACK:268435456")
 #include <iostream>
 #include <algorithm>
 #include <vector>
