@@ -5,7 +5,7 @@ struct Item
 	Item(int _x, int _y) : x(_x), y(_y), l(0), r(0) {}
 };
 
-struct treap
+struct Dec
 {
 	Item* root = 0;
 
@@ -72,32 +72,20 @@ struct treap
 
 	void erase(Item*& v, int x)
 	{
-		Item* n = v->x < x ? v->r : v->l;
-		if (n->x == x)
+		if (v == 0) return;
+		if (v->x == x)
 		{
-			Item* p = merge(n->l, n->r);
-			v->x < x ? v->r = p : v->l = p;
-			delete n;
-			return;
+			Item* p = merge(v->l, v->r);
+			v = p;
 		}
-		erase(n, x);
-		return;
-	}
-
-	int findBR(Item*& v, int x)
-	{
-		if (v == 0) return -1;
-		if (v->x >= x)
+		else if (v->x > x)
 		{
-			int f = findBR(v->l, x);
-			if (f != -1) return f;
-			return v->x;
+			erase(v->l, x);
 		}
 		else
 		{
-			int f = findBR(v->r, x);
-			if (f == -1) return f;
-			return f;
+			erase(v->r, x);
 		}
+		return;
 	}
 };
