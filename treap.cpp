@@ -89,13 +89,13 @@ struct treap
 		if (v == 0) return -1;
 		if (v->x >= x)
 		{
-			int f = find(v->l, x);
+			int f = findBR(v->l, x);
 			if (f != -1) return f;
 			return v->x;
 		}
 		else
 		{
-			int f = find(v->r, x);
+			int f = findBR(v->r, x);
 			if (f == -1) return f;
 			return f;
 		}
