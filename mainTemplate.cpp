@@ -12,6 +12,8 @@
 #include <deque>
 #include <cmath>
 #include <sstream>
+#include <bitset>
+#define what_is(x) cerr << #x << " = " << x << endl;
 
 using namespace std;
 
