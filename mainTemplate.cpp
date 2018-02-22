@@ -25,6 +25,8 @@ using namespace std;
 #define pf(x,y) printf("%" x,y)
 
 typedef long long int64;
+#define int int64
+
 typedef unsigned long long uint64;
 typedef pair<int, int> pii;
 typedef pair<int64, int64> pii64;
@@ -36,13 +38,14 @@ template <typename T1, typename T2> ostream& operator << (ostream& out, pair<T1,
 template <typename T> istream& operator >> (istream& in, vector<T>& t) { for (int i = 0; i < t.size(); i++) in >> t[i]; return in; }
 template <typename T> ostream& operator << (ostream& out, vector<T>& t) { for (int i = 0; i < t.size(); i++) out << t[i] << " "; return out; }
 
-
-int main()
+signed main()
 {
+	int r = 1e5;
 #ifdef _SANYA
 	freopen("abc.txt", "r", stdin);
+	r = 150;
 #else
-#define T "permutation"
+#define T "rings"
 	//freopen(T ".in", "r", stdin);
 	//freopen(T ".out", "w", stdout);
 #endif
