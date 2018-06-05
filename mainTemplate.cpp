@@ -23,6 +23,7 @@ using namespace std;
 #define mp make_pair
 #define sf(x,y) scanf("%" x,&y)
 #define pf(x,y) printf("%" x,y)
+#define sqr(x) (x)*(x)
 
 typedef long long int64;
 typedef long double ld;
@@ -31,8 +32,10 @@ typedef long double ld;
 typedef unsigned long long uint64;
 typedef pair<int, int> pii;
 typedef pair<int64, int64> pii64;
+typedef pair<double, double> pdd;
 typedef vector<int> vint;
 typedef vector<int64> vint64;
+typedef vector<double> vd;
 
 template <typename T1, typename T2> istream& operator >> (istream& in, pair<T1, T2>& t) { return in >> t.first >> t.second; }
 template <typename T1, typename T2> ostream& operator << (ostream& out, pair<T1, T2>& t) { return out << t.first << " " << t.second << endl; }
