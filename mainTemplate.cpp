@@ -36,6 +36,7 @@ typedef pair<double, double> pdd;
 typedef vector<int> vint;
 typedef vector<int64> vint64;
 typedef vector<double> vd;
+typedef vector<vint> vvint;
 
 template <typename T1, typename T2> istream& operator >> (istream& in, pair<T1, T2>& t) { return in >> t.first >> t.second; }
 template <typename T1, typename T2> ostream& operator << (ostream& out, pair<T1, T2>& t) { return out << t.first << " " << t.second << endl; }
