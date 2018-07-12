@@ -275,6 +275,7 @@ struct SqrtDec
 
 //Geometry
 struct Point {
+	// p = p1 - p2
 	/*
 	vartype D  = (v1*v1)*(v2*v2) - (v1*v2)*(v2*v1);
 	vartype k1 = (-(v2*v2)*(v1*p)+(v2*v1)*(v2*p)) / D;
