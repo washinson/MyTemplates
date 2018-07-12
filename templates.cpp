@@ -300,7 +300,7 @@ struct Point {
 
 	int turn(const Point& v2) const {
 		vartype res = (*this ^ v2);
-		if (abs(res) <= EPS) return 0;
+		if (abs(res) <= (vartype)EPS) return 0;
 		if (res > 0) return 1;
 		if (res < 0) return -1;
 		return 0;
