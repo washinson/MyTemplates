@@ -14,6 +14,7 @@
 #include <sstream>
 #include <bitset>
 #define what_is(x) cerr << #x << " = " << x << endl;
+#define IO_OPTIMAZE ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0)
 
 using namespace std;
 
@@ -37,14 +38,16 @@ typedef vector<int> vint;
 typedef vector<int64> vint64;
 typedef vector<double> vd;
 typedef vector<vint> vvint;
+typedef vector<pii> vpii;
 
 template <typename T1, typename T2> istream& operator >> (istream& in, pair<T1, T2>& t) { return in >> t.first >> t.second; }
-template <typename T1, typename T2> ostream& operator << (ostream& out, pair<T1, T2>& t) { return out << t.first << " " << t.second << endl; }
+template <typename T1, typename T2> ostream& operator << (ostream& out, pair<T1, T2>& t) { return out << t.first << " " << t.second; }
 template <typename T> istream& operator >> (istream& in, vector<T>& t) { for (int i = 0; i < t.size(); i++) in >> t[i]; return in; }
 template <typename T> ostream& operator << (ostream& out, vector<T>& t) { for (int i = 0; i < t.size(); i++) out << t[i] << " "; return out; }
 
 signed main()
 {
+	IO_OPTIMAZE;
 	int rrrr = 1e5;
 #ifdef _SANYA
 	freopen("abc.in", "r", stdin);
@@ -55,5 +58,6 @@ signed main()
 	//freopen(T ".in", "r", stdin);
 	//freopen(T ".out", "w", stdout);
 #endif
+	
 	return 0;
 }
