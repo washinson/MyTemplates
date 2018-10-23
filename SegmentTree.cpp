@@ -30,8 +30,9 @@ struct ST {
 		if (g[v].set != -1) g[v].val = g[v].set * (r - l + 1);
 		g[v].val += g[v].add * (r - l + 1);
 		if (v * 2 + 1 < g.size()) {
-			g[v * 2 + 1].add = g[v * 2].add = g[v].add;
-			g[v * 2 + 1].set = g[v * 2].set = g[v].set;
+			if (g[v].set != -1) g[v * 2].add = g[v * 2 + 1].add = 0;
+			g[v * 2 + 1].add += g[v].add; g[v * 2].add += g[v].add;
+			if (g[v].set != -1) g[v * 2 + 1].set = g[v * 2].set = g[v].set;
 		}
 		g[v].add = 0;
 		g[v].set = -1;
@@ -53,7 +54,7 @@ struct ST {
 		push(v, l, r);
 		if (r < a || l > b) return;
 		if (a <= l && b >= r) {
-			g[v].add = val; push(v, l, r); return;
+			g[v].add += val; push(v, l, r); return;
 		}
 		int m = (l + r) / 2;
 		add(lson, a, b, val);
