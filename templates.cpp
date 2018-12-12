@@ -1,37 +1,28 @@
-//Union
-struct Union
-{
-	struct Node
-	{
-		int p, r;
-	};
+//DSU
+struct DSU {
+    vint p;
+    vint sz;
 
-	vector<Node> t;
+    int ans = 0;
 
-	void init(int n)
-	{
-		t.resize(n);
-		for (int i = 0;i < t.size();i++)
-		{
-			t[i].p = i;
-			t[i].r = 0;
-		}
-	}
+    DSU(int n) {
+        p.resize(n); sz.assign(n, 1);
+        for (int i = 0; i < n; ++i) p[i] = i;
+    }
 
-	int get(int a)
-	{
-		return a == t[a].p ? a : t[a].p = get(t[a].p);
-	}
+    int get(int i) {
+        return (p[i] == i ? i : p[i] = get(p[i]));
+    }
 
-	void unite(int f, int s)
-	{
-		int a = get(f);
-		int b = get(s);
-		if (a == b) return;
-		if (t[a].r < t[b].r) swap(a, b);
-		t[b].p = a;
-		if (t[a].r == t[b].r) t[a].r++;
-	}
+    void unite(int f, int s) {
+        int a = get(f), b = get(s);
+        if (a == b) return;
+        if (sz[a] < sz[b]) swap(a, b);
+        p[b] = a;
+        ans -= sz[a] * (sz[a] - 1) / 2 + sz[b] * (sz[b] - 1) / 2;
+        sz[a] += sz[b];
+        ans += sz[a] * (sz[a] - 1) / 2;
+    }
 };
 
 //SegmentTree
