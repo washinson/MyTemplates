@@ -1,13 +1,11 @@
 //DSU
 struct DSU {
     vint p;
-    vint sz;
-
-    int ans = 0;
+    vint r;
 
     DSU(int n) {
-        p.resize(n); sz.assign(n, 1);
-        for (int i = 0; i < n; ++i) p[i] = i;
+        p.resize(n); r.resize(n);
+        for (int i = 0; i < n; ++i) p[i] = i, r[i] = 0;
     }
 
     int get(int i) {
@@ -17,11 +15,9 @@ struct DSU {
     void unite(int f, int s) {
         int a = get(f), b = get(s);
         if (a == b) return;
-        if (sz[a] < sz[b]) swap(a, b);
+        if (r[a] < r[b]) swap(a, b);
         p[b] = a;
-        ans -= sz[a] * (sz[a] - 1) / 2 + sz[b] * (sz[b] - 1) / 2;
-        sz[a] += sz[b];
-        ans += sz[a] * (sz[a] - 1) / 2;
+        if (r[a] == r[b]) ++r[a];
     }
 };
 
