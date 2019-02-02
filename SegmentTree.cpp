@@ -1,4 +1,3 @@
-//Not tested yet
 struct ST {
 	struct Item {
 		int val = 0;
